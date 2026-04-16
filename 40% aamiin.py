@@ -190,7 +190,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-test_repo = "Berhasil"
-print(test_repo)
-    
