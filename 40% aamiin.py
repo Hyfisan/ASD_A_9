@@ -4,8 +4,9 @@ import csv
 # NODE DOUBLE LINKED LIST
 # =========================
 class StationNode:
-    def __init__(self, name):
+    def __init__(self, name, connected):
         self.name = name
+        self.connected = connected
         self.prev = None
         self.next = None
 
@@ -18,8 +19,8 @@ class TrainRoute:
         self.head = None
 
     # CREATE
-    def add_station(self, name):
-        new_node = StationNode(name)
+    def add_station(self, name, connected = []):
+        new_node = StationNode(name, connected)
 
         if not self.head:
             self.head = new_node
@@ -30,14 +31,6 @@ class TrainRoute:
             temp = temp.next
 
         temp.next = new_node
-        while True:
-            choice = input(f"Apakah stasiun {name} menyambung dengan stasiun lain? (y/n): ", end="")
-            if choice == "y":
-                connect_station = input("Masukan nama stasiun lain: ", end = "")
-                continue
-            else:
-                print("Stasiun berhasil dibuat!")
-                break
         new_node.prev = temp
 
     # READ
@@ -109,7 +102,28 @@ class TrainRoute:
             print("Data berhasil dimuat!")
         except FileNotFoundError:
             print("File belum ada!")
-
+    
+    def show_station(self, name):
+        temp = self.head
+        found = False
+        while found == False and temp:
+            if temp.name == name:
+                found = True
+            else:
+                temp = temp.next
+        if found == True:
+            print(f"Nama stasiun: {temp.name}")
+            print(f"Stasiun tersambung: {temp.connected}")
+        else:
+            print("Stasiun tidak ditemukan!")
+        
+    def all_stations(self):
+        stations = []
+        temp = self.head
+        while temp:
+            stations.append(temp.name)
+            temp = temp.next
+        return stations
 
 
 # =========================
@@ -127,12 +141,23 @@ def main():
         print("5. Simpan ke File")
         print("6. Load dari File")
         print("7. Keluar")
+        print("8. Lihat Stasiun Tertentu")
 
         choice = input("Pilih menu: ")
 
         if choice == "1":
             name = input("Nama stasiun: ")
-            route.add_station(name)
+            list_connect_station = []
+            while True:
+                choice = input(f"Apakah stasiun {name} menyambung dengan stasiun lain? (y/n): ")
+                if choice == "y":
+                    connect_station = input("Masukan nama stasiun lain: ")
+                    list_connect_station.append(connect_station)
+                    continue
+                else:
+                    route.add_station(name, list_connect_station)
+                    print("Stasiun berhasil dibuat!")
+                    break
 
         elif choice == "2":
             route.show_route()
@@ -154,6 +179,10 @@ def main():
 
         elif choice == "7":
             break
+
+        elif choice == "8":
+            name = input("Nama stasiun: ")
+            route.show_station(name)
 
         else:
             print("Input tidak valid!")
