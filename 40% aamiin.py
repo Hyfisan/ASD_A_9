@@ -95,8 +95,16 @@ class TrainRoute:
         try:
             with open(filename, "r") as file:
                 reader = csv.reader(file)
+                header = next(reader, None)
+                first_row = next(reader, None)
+                if header is None:
+                    return print("File kosong!")
+                if first_row is None:
+                    return print("File kosong!")
 
                 self.head = None
+                if not reader:
+                    return "File kosong!"
                 for row in reader:
                     self.add_station(row[0], row[1].split(","))
 
