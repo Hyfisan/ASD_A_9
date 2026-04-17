@@ -10,23 +10,29 @@ class StationNode:
         self.prev = None
         self.next = None
 
+class StationRoute:
+    def __init__(self, name, connected):
+        self.name = name
+        self.connected = connected
+        self.next = None
 
 # =========================
 # DOUBLE LINKED LIST
 # =========================
 class TrainRoute:
     def __init__(self):
-        self.head = None
+        self.head_station = None
+        self.head_route = None
 
     # CREATE
     def add_station(self, name, connected = []):
         new_node = StationNode(name, connected)
 
-        if not self.head:
-            self.head = new_node
+        if not self.head_station:
+            self.head_station = new_node
             return
 
-        temp = self.head
+        temp = self.head_station
         while temp.next:
             temp = temp.next
 
@@ -34,8 +40,8 @@ class TrainRoute:
         new_node.prev = temp
 
     # READ
-    def show_route(self):
-        temp = self.head
+    def show_stations(self):
+        temp = self.head_station
         while temp:
             print(temp.name, end=" <-> ")
             temp = temp.next
@@ -43,7 +49,7 @@ class TrainRoute:
 
     # UPDATE
     def update_station(self, old_name, new_name):
-        temp = self.head
+        temp = self.head_station
         while temp:
             if temp.name == old_name:
                 temp.name = new_name
@@ -54,7 +60,7 @@ class TrainRoute:
 
     # DELETE
     def delete_station(self, name):
-        temp = self.head
+        temp = self.head_station
 
         while temp:
             if temp.name == name:
@@ -62,7 +68,7 @@ class TrainRoute:
                 if temp.prev:
                     temp.prev.next = temp.next
                 else:
-                    self.head = temp.next
+                    self.head_station = temp.next
 
                 if temp.next:
                     temp.next.prev = temp.prev
@@ -78,7 +84,7 @@ class TrainRoute:
     # SAVE TO FILE
     def save_to_file(self, filename="route.csv"):
         data = []
-        temp = self.head
+        temp = self.head_station
 
         while temp:
             data.append([temp.name, ",".join(temp.connected)])
@@ -102,9 +108,7 @@ class TrainRoute:
                 if first_row is None:
                     return print("File kosong!")
 
-                self.head = None
-                if not reader:
-                    return "File kosong!"
+                self.head_station = None
                 for row in reader:
                     self.add_station(row[0], row[1].split(","))
 
@@ -113,7 +117,7 @@ class TrainRoute:
             print("File belum ada!")
     
     def show_station(self, name):
-        temp = self.head
+        temp = self.head_station
         found = False
         while found == False and temp:
             if temp.name == name:
@@ -128,12 +132,38 @@ class TrainRoute:
         
     def all_stations(self):
         stations = []
-        temp = self.head
+        temp = self.head_station
         while temp:
             stations.append(temp.name)
             temp = temp.next
         return stations
+    
+    def check_connection(self, station1, station2):
+        temp = self.head_station
+        found = False
+        while found == False and temp:
+            if temp.name == station1:
+                found = True
+            else:
+                temp = temp.next
+        if found == True:
+            return station2 in temp.connected
+        else:
+            print("Stasiun tidak ditemukan!")
+            return False
+        
+    def add_route(self, name, connected = []):
+        new_route = StationRoute(name, connected)
 
+        if not self.head_route:
+            self.head_route = new_route
+            return
+
+        temp = self.head_route
+        while temp.next:
+            temp = temp.next
+
+        temp.next = new_route
 
 # =========================
 # MAIN PROGRAM
@@ -153,6 +183,7 @@ def main():
         print("6. Muat dari File")
         print("7. Keluar")
         print("8. Lihat Stasiun Tertentu")
+        print("9. Tambah Rute")
 
         choice = input("Pilih menu: ")
 
@@ -174,7 +205,7 @@ def main():
                     break
 
         elif choice == "2":
-            route.show_route()
+            route.show_stations()
 
         elif choice == "3":
             old = input("Stasiun lama: ")
@@ -197,6 +228,14 @@ def main():
         elif choice == "8":
             name = input("Nama stasiun: ")
             route.show_station(name)
+
+        elif choice == "9":
+            name1 = input("Nama stasiun pertama: ")
+            name2 = input("Nama stasiun kedua: ")
+            if route.check_connection(name1, name2):
+                print(f"Stasiun {name1} dan {name2} saling terhubung.")
+            else:
+                print(f"Stasiun {name1} dan {name2} tidak saling terhubung.")
 
         else:
             print("Input tidak valid!")
