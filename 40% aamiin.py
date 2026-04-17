@@ -67,6 +67,7 @@ class TrainRoute:
                 if temp.next:
                     temp.next.prev = temp.prev
 
+                del temp
                 print("Stasiun berhasil dihapus!")
                 return
 
@@ -132,6 +133,7 @@ class TrainRoute:
 def main():
     route = TrainRoute()
     route.load_from_file()
+    all_stations = route.all_stations()
 
     while True:
         print("\n=== MENU RUTE KERETA API ===")
@@ -147,7 +149,6 @@ def main():
         choice = input("Pilih menu: ")
 
         if choice == "1":
-            all_stations = route.all_stations()
             name = input("Nama stasiun: ")
             while name in all_stations:
                 print("Nama stasiun sudah ada!")
