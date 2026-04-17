@@ -80,7 +80,7 @@ class TrainRoute:
         temp = self.head
 
         while temp:
-            data.append([temp.name])
+            data.append([temp.name, ",".join(temp.connected)])
             temp = temp.next
 
         with open(filename, "w", newline="") as file:
@@ -97,7 +97,7 @@ class TrainRoute:
 
                 self.head = None
                 for row in reader:
-                    self.add_station(row[0])
+                    self.add_station(row[0], row[1].split(","))
 
             print("Data berhasil dimuat!")
         except FileNotFoundError:
@@ -131,6 +131,7 @@ class TrainRoute:
 # =========================
 def main():
     route = TrainRoute()
+    route.load_from_file()
 
     while True:
         print("\n=== TRAIN ROUTE MENU ===")
@@ -146,7 +147,11 @@ def main():
         choice = input("Pilih menu: ")
 
         if choice == "1":
+            all_stations = route.all_stations()
             name = input("Nama stasiun: ")
+            while name in all_stations:
+                print("Nama stasiun sudah ada!")
+                name = input("Nama stasiun: ")
             list_connect_station = []
             while True:
                 choice = input(f"Apakah stasiun {name} menyambung dengan stasiun lain? (y/n): ")
