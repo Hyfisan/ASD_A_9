@@ -133,13 +133,13 @@ def main():
     route = TrainRoute()
 
     while True:
-        print("\n=== TRAIN ROUTE MENU ===")
+        print("\n=== MENU RUTE KERETA API ===")
         print("1. Tambah Stasiun")
         print("2. Lihat Rute")
         print("3. Update Stasiun")
         print("4. Hapus Stasiun")
         print("5. Simpan ke File")
-        print("6. Load dari File")
+        print("6. Muat dari File")
         print("7. Keluar")
         print("8. Lihat Stasiun Tertentu")
 
