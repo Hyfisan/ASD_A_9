@@ -42,8 +42,10 @@ class TrainRoute:
     # READ
     def show_stations(self):
         temp = self.head_station
+        i = 1
         while temp:
-            print(temp.name, end=" <-> ")
+            print(f"{i}. {temp.name}")
+            i += 1
             temp = temp.next
         print("None")
 
@@ -53,10 +55,10 @@ class TrainRoute:
         while temp:
             if temp.name == old_name:
                 temp.name = new_name
-                print("Stasiun berhasil diupdate!")
+                print(f"Stasiun berhasil diupdate menjadi '{new_name}'!")
                 return
             temp = temp.next
-        print("Stasiun tidak ditemukan!")
+        print(f"GAGAL! Stasiun dengan nama '{old_name}' tidak ditemukan!")
 
     # DELETE
     def delete_station(self, name):
@@ -74,12 +76,12 @@ class TrainRoute:
                     temp.next.prev = temp.prev
 
                 del temp
-                print("Stasiun berhasil dihapus!")
+                print(f"Stasiun '{name}' berhasil dihapus!")
                 return
 
             temp = temp.next
 
-        print("Stasiun tidak ditemukan!")
+        print(f"GAGAL! Stasiun dengan nama '{name}' tidak ditemukan!")
 
     # SAVE TO FILE
     def save_to_file(self, filename="route.csv"):
@@ -90,7 +92,7 @@ class TrainRoute:
             data.append([temp.name, ",".join(temp.connected)])
             temp = temp.next
 
-        with open(filename, "w", newline="") as file:
+        with open(filename, "w", encoding="utf-8", newline="") as file:
             writer = csv.writer(file)
             writer.writerows(data)
 
@@ -176,21 +178,21 @@ def main():
     while True:
         print("\n=== MENU RUTE KERETA API ===")
         print("1. Tambah Stasiun")
-        print("2. Lihat Rute")
-        print("3. Update Stasiun")
-        print("4. Hapus Stasiun")
-        print("5. Simpan ke File")
-        print("6. Muat dari File")
-        print("7. Keluar")
-        print("8. Lihat Stasiun Tertentu")
-        print("9. Tambah Rute")
+        print("2. Lihat Semua Stasiun")
+        print("3. Lihat Stasiun Tertentu")
+        print("4. Update Stasiun")
+        print("5. Hapus Stasiun")
+        print("6. Simpan ke File")
+        print("7. Muat dari File")
+        print("8. Keluar")
+        print("9. Tambah Rute") #Bakal diupdate (belom bisa sepenuhnya)
 
         choice = input("Pilih menu: ")
 
         if choice == "1":
             name = input("Nama stasiun: ")
             while name in all_stations:
-                print("Nama stasiun sudah ada!")
+                print(f"GAGAL! Stasiun dengan nama '{name}' sudah ada!")
                 name = input("Nama stasiun: ")
             list_connect_station = []
             while True:
@@ -202,15 +204,15 @@ def main():
                 else:
                     route.add_station(name, list_connect_station)
                     print("Stasiun berhasil dibuat!")
+                    all_stations = route.all_stations()
                     break
 
         elif choice == "2":
             route.show_stations()
 
         elif choice == "3":
-            old = input("Stasiun lama: ")
-            new = input("Stasiun baru: ")
-            route.update_station(old, new)
+            name = input("Nama stasiun: ")
+            route.show_station(name)
 
         elif choice == "4":
             name = input("Nama stasiun: ")
@@ -226,8 +228,9 @@ def main():
             break
 
         elif choice == "8":
-            name = input("Nama stasiun: ")
-            route.show_station(name)
+            old = input("Stasiun lama: ")
+            new = input("Stasiun baru: ")
+            route.update_station(old, new)
 
         elif choice == "9":
             name1 = input("Nama stasiun pertama: ")
