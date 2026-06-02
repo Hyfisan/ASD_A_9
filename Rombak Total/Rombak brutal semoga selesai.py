@@ -607,11 +607,19 @@ def menu_pelanggan(rute, riwayat):
             clear_terminal()
             break
 
+# ==============================================================================
+# PROGRAM UTAMA (MAIN ROUTINE)
+# ==============================================================================
+
 def main():
+    """Fungsi utama untuk menjalankan aplikasi."""
     nama_file = "stasiun.csv"
 
+    # Inisialisasi Objek (Double Linked List & Stack)
     rute = RuteKereta()
     riwayat = StackRiwayat()
+    
+    # Otomatis meload data dari CSV saat program baru dibuka
     rute.baca_csv(nama_file)
 
     while True:
@@ -619,25 +627,25 @@ def main():
         print("\n=================================")
         print(" PROGRAM RUTE KERETA API")
         print("=================================")
-        print("1. Mode Pelanggan")
-        print("2. Mode Admin")
-        print("3. Keluar dan Simpan")
+        print("1. Mode Admin")
+        print("2. Mode Pelanggan")
+        print("3. Keluar")
 
         pilih = input_angka("Pilih menu: ", 1, 3)
 
         if pilih == 1:
             clear_terminal()
-            menu_pelanggan(rute, riwayat)
-
+            menu_admin(rute, nama_file)
 
         elif pilih == 2:
             clear_terminal()
-            menu_admin(rute, nama_file)
+            menu_pelanggan(rute, riwayat)
 
         elif pilih == 3:
+            # Memastikan data terakhir tersimpan sebelum program berhenti
             rute.simpan_csv(nama_file)
             print("Terima kasih sudah menggunakan program.")
             break
 
-
+# Mengeksekusi program utama
 main()
