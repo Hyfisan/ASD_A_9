@@ -1,17 +1,6 @@
 import csv
 import os
 
-# ==========================================================
-# PROGRAM RUTE KERETA API SEDERHANA - RED LINE / BOGOR LINE
-# Kelompok 14 - Algoritma dan Struktur Data
-#
-# Struktur data:
-# 1. Double Linked List untuk rute utama Jakarta Kota - Bogor
-# 2. Stack untuk riwayat perjalanan pelanggan
-# 3. List untuk membantu sorting
-# ==========================================================
-
-
 class Node:
     def __init__(self, kode, nama, kota):
         self.kode = kode
@@ -49,12 +38,27 @@ class RuteKereta:
     def kosong(self):
         return self.head is None
 
-    def tambah_stasiun(self, kode, nama, kota):
+    def tambah_stasiun(self, kode, nama, kota, posisi = None):
         node_baru = Node(kode, nama, kota)
-
+    
         if self.kosong():
             self.head = node_baru
             self.tail = node_baru
+        elif posisi is not None:
+            temp = self.head
+            i = 1
+            while i < posisi - 1 and temp.next is not None:
+                temp = temp.next
+                i += 1
+            if temp == self.head and posisi == 1:
+                node_baru.next = self.head
+                self.head.prev = node_baru
+                self.head = node_baru
+            else:
+                node_baru.next = temp.next
+                temp.next.prev = node_baru
+                temp.next = node_baru
+                node_baru.prev = temp
         else:
             self.tail.next = node_baru
             node_baru.prev = self.tail
@@ -376,6 +380,7 @@ def menu_admin(rute, nama_file):
         pilih = input_angka("Pilih menu: ", 1, 8)
 
         if pilih == 1:
+            posisi_index = input_angka("Masukkan posisi stasiun baru (1 untuk paling awal): ", 1, 1000)
             kode = input_teks("Kode stasiun: ").upper()
 
             if rute.kode_sudah_ada(kode):
@@ -383,7 +388,7 @@ def menu_admin(rute, nama_file):
             else:
                 nama = input_teks("Nama stasiun: ")
                 kota = input_teks("Kota: ")
-                rute.tambah_stasiun(kode, nama, kota)
+                rute.tambah_stasiun(kode, nama, kota, posisi_index)
                 print("Stasiun berhasil ditambahkan.")
 
         elif pilih == 2:
