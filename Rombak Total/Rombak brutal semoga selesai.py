@@ -1,5 +1,6 @@
 import csv
 import os
+import time
 
 class Node:
     def __init__(self, kode, nama, kota):
@@ -348,6 +349,13 @@ def input_angka(pesan, batas_bawah, batas_atas):
         except ValueError:
             print("Input harus berupa angka.")
 
+# Function =========================================================================
+
+def clear_terminal():
+    os.system("cls" if os.name == "nt" else "clear")
+
+def wait(sec):
+    time.sleep(sec)
 
 def input_teks(pesan):
     while True:
@@ -365,6 +373,17 @@ def menu_admin(rute, nama_file):
     if password != "admin":
         print("Password salah.")
         return
+    clear_terminal()
+    i = 0
+    j = 0
+    while i < 2:
+        while j < 4:
+            print("Login berhasil. Masuk" + "." * j, end="\r")
+            wait(0.5)
+            j += 1
+        i += 1
+        j = 0
+        clear_terminal()
 
     while True:
         print("\n=== MODE ADMIN ===")
@@ -380,6 +399,8 @@ def menu_admin(rute, nama_file):
         pilih = input_angka("Pilih menu: ", 1, 8)
 
         if pilih == 1:
+            clear_terminal()
+            print("===== TAMBAH STASIUN BARU =====")
             posisi_index = input_angka("Masukkan posisi stasiun baru (1 untuk paling awal): ", 1, 1000)
             kode = input_teks("Kode stasiun: ").upper()
 
@@ -389,22 +410,38 @@ def menu_admin(rute, nama_file):
                 nama = input_teks("Nama stasiun: ")
                 kota = input_teks("Kota: ")
                 rute.tambah_stasiun(kode, nama, kota, posisi_index)
+                print("Menambahkan stasiun baru...")
+                wait(2)
+                clear_terminal()
                 print("Stasiun berhasil ditambahkan.")
+                wait(1)
 
         elif pilih == 2:
+            clear_terminal()
+            print("===== RUTE MAJU =====")
             rute.tampil_maju()
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 3:
+            clear_terminal()
+            print("===== RUTE BALIK =====")
             rute.tampil_mundur()
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 4:
+            clear_terminal()
+            print("===== DETAIL STASIUN =====")
             rute.tampil_detail()
 
         elif pilih == 5:
+            clear_terminal()
+            print("===== UBAH STASIUN =====")
             keyword = input_teks("Masukkan kode/nama stasiun yang ingin diubah: ")
             rute.ubah_stasiun(keyword)
 
         elif pilih == 6:
+            clear_terminal()
+            print("===== HAPUS STASIUN =====")
             keyword = input_teks("Masukkan kode/nama stasiun yang ingin dihapus: ")
             rute.hapus_stasiun(keyword)
 
@@ -416,6 +453,17 @@ def menu_admin(rute, nama_file):
 
 
 def menu_pelanggan(rute, riwayat):
+    clear_terminal()
+    i = 0
+    j = 0
+    while i < 2:
+        while j < 4:
+            print("Loading" + "." * j, end="\r")
+            wait(0.5)
+            j += 1
+        i += 1
+        j = 0
+        clear_terminal()
     while True:
         print("\n=== MODE PELANGGAN ===")
         print("1. Lihat rute maju")
@@ -460,6 +508,7 @@ def main():
     rute.baca_csv(nama_file)
 
     while True:
+        clear_terminal()
         print("\n=================================")
         print(" PROGRAM RUTE KERETA API")
         print("=================================")
@@ -470,9 +519,11 @@ def main():
         pilih = input_angka("Pilih menu: ", 1, 3)
 
         if pilih == 1:
+            clear_terminal()
             menu_admin(rute, nama_file)
 
         elif pilih == 2:
+            clear_terminal()
             menu_pelanggan(rute, riwayat)
 
         elif pilih == 3:
