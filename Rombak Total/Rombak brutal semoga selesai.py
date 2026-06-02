@@ -18,12 +18,10 @@ class Node:
 class StackRiwayat:
     """Class untuk menyimpan riwayat simulasi perjalanan menggunakan konsep Stack (Tumpukan)."""
     def __init__(self):
-        # self.data berisi kumpulan simulasi.
-        # Setiap simulasi disimpan sebagai list perjalanan.
         self.data = []
 
     def push_simulasi(self, daftar_perjalanan):
-        # Menyimpan riwayat hanya jika ada pergerakan (minimal 1 stasiun terlewati)
+        # Simpan hanya jika ada minimal satu perpindahan
         if len(daftar_perjalanan) > 0:
             self.data.append(daftar_perjalanan)
 
@@ -308,7 +306,7 @@ class RuteKereta:
         riwayat_simulasi = []
 
         while True:
-            print("\n=== SIMULASI PERJALANAN RED LINE ===")
+            print("\n=== SIMULASI PERJALANAN ===")
 
             daftar_nama = []
             bantu = self.head
@@ -400,7 +398,6 @@ def input_angka(pesan, batas_bawah, batas_atas):
         except ValueError:
             print("Input harus berupa angka.")
 
-# Function =========================================================================
 
 def get_all_stations(rute):
     semua_stasiun = []
@@ -599,19 +596,20 @@ def main():
         print("\n=================================")
         print(" PROGRAM RUTE KERETA API")
         print("=================================")
-        print("1. Mode Admin")
-        print("2. Mode Pelanggan")
-        print("3. Keluar")
+        print("1. Mode Pelanggan")
+        print("2. Mode Admin")
+        print("3. Keluar dan Simpan")
 
         pilih = input_angka("Pilih menu: ", 1, 3)
 
         if pilih == 1:
             clear_terminal()
-            menu_admin(rute, nama_file)
+            menu_pelanggan(rute, riwayat)
+
 
         elif pilih == 2:
             clear_terminal()
-            menu_pelanggan(rute, riwayat)
+            menu_admin(rute, nama_file)
 
         elif pilih == 3:
             rute.simpan_csv(nama_file)
