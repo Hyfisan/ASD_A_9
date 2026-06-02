@@ -357,10 +357,15 @@ class RuteKereta:
                     print("\nSimulasi selesai tanpa perpindahan. Riwayat tidak disimpan.")
                 break
             
+# ==============================================================================
+    # PENYIMPANAN DATA (FILE CSV)
+    # ==============================================================================
+
     def simpan_csv(self, nama_file):
+        # Menyimpan rute dari linked list kembali ke dalam file CSV
         with open(nama_file, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
-            writer.writerow(["kode", "nama", "kota"])
+            writer.writerow(["kode", "nama", "kota"]) # Header tabel
 
             bantu = self.head
             while bantu is not None:
@@ -370,6 +375,7 @@ class RuteKereta:
         print("\nData berhasil disimpan ke", nama_file, "...")
 
     def baca_csv(self, nama_file):
+        # Memuat rute ke dalam linked list dari file CSV
         if not os.path.exists(nama_file):
             return
 
@@ -381,7 +387,6 @@ class RuteKereta:
                 nama = row["nama"]
                 kota = row["kota"]
                 self.tambah_stasiun(kode, nama, kota)
-
 
 def input_angka(pesan, batas_bawah, batas_atas):
     while True:
