@@ -1,14 +1,15 @@
-import csv
+import json
+import os
+import time
 
 # =========================
 # NODE DOUBLE LINKED LIST
 # =========================
-class StationNode:
+class StationNode: 
     def __init__(self, name):
         self.name = name
-        self.connected = []
-        self.length = []
-        self.status = []
+        # connected: dict -> {connected_name: {"length": <length>, "status": <status>}}
+        self.connected = {}
         self.prev = None
         self.next = None
 
@@ -28,28 +29,41 @@ class TrainRoute:
 
     # CREATE
     def add_station(self, name, connected, length, status = "Aktif"):
-        new_node = StationNode(name)
-
+        # Cari stasiun yang sudah ada atau buat node baru
         if not self.head_station:
+            new_node = StationNode(name)
             self.head_station = new_node
-            return
-        
-        temp = self.head_station
-        while temp.next and temp.name != name:
-            temp = temp.next
-
-        if temp.name == name:
-            temp.connected.append(connected)
-            temp.length.append(length)
-            temp.status.append(status)
-            return
         else:
-            temp.next = new_node
-            new_node.prev = temp
-            new_node.connected.append(connected)
-            new_node.length.append(length)
-            new_node.status.append(status)
-            return
+            temp = self.head_station
+            while temp and temp.name != name:
+                temp = temp.next
+            
+            if not temp:
+                # Stasiun belum ada, buat node baru di akhir
+                new_node = StationNode(name)
+                temp = self.head_station
+                while temp.next:
+                    temp = temp.next
+                temp.next = new_node
+                new_node.prev = temp
+            else:
+                # Stasiun sudah ada, gunakan node yang sudah ada
+                new_node = temp
+        
+        # Tambahkan koneksi ke stasiun
+        if isinstance(connected, list):
+            # Jika connected adalah list, loop untuk setiap koneksi
+            for i, con_station in enumerate(connected):
+                if con_station:  # Jika koneksi tidak kosong
+                    if isinstance(length, list) and i < len(length):
+                        length_val = length[i]
+                    else:
+                        length_val = length if not isinstance(length, list) else ""
+                    new_node.connected[con_station] = {"length": length_val, "status": status}
+        else:
+            # Jika connected adalah single value
+            if connected:
+                new_node.connected[connected] = {"length": length, "status": status}
 
     # READ
     def show_stations(self):
@@ -64,13 +78,26 @@ class TrainRoute:
     # UPDATE
     def update_station(self, old_name, new_name):
         temp = self.head_station
+        found = False
         while temp:
             if temp.name == old_name:
                 temp.name = new_name
-                print(f"Stasiun berhasil diupdate menjadi '{new_name}'!")
-                return
+                found = True
+                break
             temp = temp.next
-        print(f"GAGAL! Stasiun dengan nama '{old_name}' tidak ditemukan!")
+
+        if not found:
+            print(f"GAGAL! Stasiun dengan nama '{old_name}' tidak ditemukan!")
+            return
+
+        # Update references in other nodes' connected dicts
+        temp2 = self.head_station
+        while temp2:
+            if old_name in temp2.connected:
+                temp2.connected[new_name] = temp2.connected.pop(old_name)
+            temp2 = temp2.next
+
+        print(f"Stasiun berhasil diupdate menjadi '{new_name}'!")
 
     # DELETE
     def delete_station(self, name):
@@ -87,6 +114,13 @@ class TrainRoute:
                 if temp.next:
                     temp.next.prev = temp.prev
 
+                # Remove references from other stations
+                temp2 = self.head_station
+                while temp2:
+                    if name in temp2.connected:
+                        del temp2.connected[name]
+                    temp2 = temp2.next
+
                 del temp
                 print(f"Stasiun '{name}' berhasil dihapus!")
                 return
@@ -96,44 +130,43 @@ class TrainRoute:
         print(f"GAGAL! Stasiun dengan nama '{name}' tidak ditemukan!")
 
     # SAVE TO FILE
-    def save_to_file(self, filename="route.csv"):
-        data = []
+    def save_to_file(self, filename="route.json"):
+        data = {}
         temp = self.head_station
 
         while temp:
-            data.append([temp.name, temp.connected, temp.length, temp.status])
+            data[temp.name] = temp.connected
             temp = temp.next
 
-        with open(filename, "w", encoding="utf-8", newline="") as file:
-            writer = csv.writer(file)
-            for row in data:
-                for i in range(len(row[1])):
-                    writer.writerow([row[0], row[1][i], row[2][i], row[3][i]])
-                
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=2)
 
         print("Data berhasil disimpan!")
 
     # LOAD FROM FILE
-    def load_from_file(self, filename="route_rombak.csv"):
+    def load_from_file(self, filename="route.json"):
         try:
-            with open(filename, "r") as file:
-                reader = csv.reader(file)
-                header = next(reader, None)
-                if header is None:
+            with open(filename, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                if not data:
                     return print("File kosong!")
-                
-                file.seek(0)
+
                 self.head_station = None
-                for row in reader:
-                    name = row[0]
-                    connected = row[1]
-                    length = row[2]
-                    status = row[3]
-                    self.add_station(name, connected, length, status)
+                for station_name, connections in data.items():
+                    # Tambahkan stasiun tanpa koneksi dulu
+                    self.add_station(station_name, [], [])
+                    # Kemudian restore koneksinya
+                    temp = self.head_station
+                    while temp and temp.name != station_name:
+                        temp = temp.next
+                    if temp:
+                        temp.connected = connections
 
             print("Data berhasil dimuat!")
         except FileNotFoundError:
             print("File belum ada!")
+        except json.JSONDecodeError:
+            print("File JSON tidak valid!")
     
     def show_station(self, name):
         temp = self.head_station
@@ -145,9 +178,12 @@ class TrainRoute:
                 temp = temp.next
         if found == True:
             print(f"Nama stasiun: {temp.name}")
-            print(f"Stasiun tersambung: {temp.connected}")
-            print(f"Jarak antar stasiun: {temp.length}")
-            print(f"Status stasiun: {temp.status}")
+            if temp.connected:
+                print("Stasiun tersambung:")
+                for c, info in temp.connected.items():
+                    print(f" - {c}: Jarak={info.get('length','')}, Status={info.get('status','')}")
+            else:
+                print("Stasiun tersambung: None")
         else:
             print("Stasiun tidak ditemukan!")
 
@@ -168,12 +204,14 @@ class TrainRoute:
             else:
                 temp = temp.next
         if found == True:
-            return station2 in temp.connected
+            return station2 in temp.connected.keys()
         else:
             print("Stasiun tidak ditemukan!")
             return False
         
-    def add_route(self, name, connected = []):
+    def add_route(self, name, connected=None):
+        if connected is None:
+            connected = []
         new_route = StationRoute(name, connected)
 
         if not self.head_route:
@@ -187,11 +225,20 @@ class TrainRoute:
         temp.next = new_route
 
 # =========================
+# ELSE FUNCTION
+# =========================
+
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def wait(second):
+    time.sleep(second)
+
+# =========================
 # MAIN PROGRAM
 # =========================
 def main():
     route = TrainRoute()
-    all_stations = route.give_all_stations()
     route.load_from_file()
 
     while True:
@@ -209,13 +256,18 @@ def main():
         choice = input("Pilih menu: ")
 
         if choice == "1":
-            name = input("Nama stasiun: ")
-            while name in all_stations:
-                if name.lower() == "batal":
+
+            print("Menambahkan stasiun baru.")
+            name = input("Nama stasiun: (ketik batal jika ingin membatalkan) ").lower().capitalize()
+            if name.lower() == "batal":
                     print("Penambahan stasiun dibatalkan.")
-                    break
+                    continue
+            all_stations = route.give_all_stations()
+
+            while name in all_stations:
                 print(f"Stasiun '{name}' sudah ada! Masukan nama stasiun lain.")
                 name = input("Nama stasiun: ").lower().capitalize()
+
                 if name.lower() == "batal":
                     print("Penambahan stasiun dibatalkan.")
                     break
@@ -224,32 +276,43 @@ def main():
             list_length_connected = []
             while True:
                 choice = input(f"Apakah stasiun {name} menyambung dengan stasiun lain? (y/n): ")
+
                 if choice == "y":
-                    connect_station = input("Masukan nama stasiun lain: ")
+                    connect_station = input("Masukan nama stasiun lain: ").lower().capitalize()
                     length = input("Masukan jarak antara stasiun: ")
+                    if length and not length.isdigit():
+                        print("Jarak harus berupa angka! Silakan masukkan kembali.")
+                        continue
                     list_connect_station.append(connect_station)
                     list_length_connected.append(length)
                     continue
-                else:
+
+                elif choice == "n":
                     route.add_station(name, list_connect_station, list_length_connected)
-                    all_stations.append(name)
                     print("Stasiun berhasil dibuat!")
                     break
+
+                elif choice == "batal":
+                    print("Penambahan stasiun dibatalkan.")
+                    break
+
+                else:
+                    print("Masukkan jawaban valid! (y/n/batal)")
 
         elif choice == "2":
             route.show_stations()
 
         elif choice == "3":
-            name = input("Nama stasiun: ")
+            name = input("Nama stasiun: ").lower().capitalize()
             route.show_station(name)
 
         elif choice == "4":
-            old = input("Stasiun lama: ")
-            new = input("Stasiun baru: ")
+            old = input("Stasiun lama: ").lower().capitalize()
+            new = input("Stasiun baru: ").lower().capitalize()
             route.update_station(old, new)
             
         elif choice == "5":
-            name = input("Nama stasiun: ")
+            name = input("Nama stasiun: ").lower().capitalize()
             route.delete_station(name)
 
         elif choice == "6":
@@ -263,15 +326,14 @@ def main():
             break
 
         elif choice == "9":
-            name1 = input("Nama stasiun pertama: ")
-            name2 = input("Nama stasiun kedua: ")
+            name1 = input("Nama stasiun asal: ").lower().capitalize()
+            name2 = input("Nama stasiun tujuan: ").lower().capitalize()
             if route.check_connection(name1, name2):
-                print(f"Stasiun {name1} dan {name2} saling terhubung.")
+                route.add_route(f"{name1} - {name2}", [name1, name2])
+                print("Rute berhasil dibuat!")
             else:
-                print(f"Stasiun {name1} dan {name2} tidak saling terhubung.")
-
-        else:
-            print("Input tidak valid!")
+                print(f"Tidak ada koneksi langsung antara '{name1}' dan '{name2}'!")
+            
 
 
 if __name__ == "__main__":

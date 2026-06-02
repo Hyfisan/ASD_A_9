@@ -1,0 +1,382 @@
+{
+  "Stasiun Jakarta Kota": {
+    "Stasiun Gambir": {
+      "length": "4km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "15km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "20km",
+      "status": "Aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "15km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "12km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Depok": {
+      "length": "14km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "24km",
+      "status": "Aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "45km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Cikini": {
+      "length": "50km",
+      "status": "Aktif"
+    }
+  },
+  "Stasiun Gambir": {
+    "Stasiun Jakarta Kota": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "4km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "6km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "12km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Bogor": {
+      "length": "15km",
+      "status": "Aktif"
+    },
+    "Stasiun Depok": {
+      "length": "30km",
+      "status": "Aktif"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "14km",
+      "status": "Aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "16km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Cikini": {
+      "length": "45km",
+      "status": "Aktif"
+    }
+  },
+  "Stasiun Manggarai": {
+    "Stasiun Jakarta Kota": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "6km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "9km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "16km",
+      "status": "Aktif"
+    },
+    "Stasiun Depok": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "30km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "14km",
+      "status": "Aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "40km",
+      "status": "Aktif"
+    }
+  },
+  "Stasiun Jatinegara": {
+    "Stasiun Jakarta Kota": {
+      "length": "12km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "4km",
+      "status": "Aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Depok": {
+      "length": "8km",
+      "status": "Aktif"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "20km",
+      "status": "Aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "18km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "21km",
+      "status": "Non-aktif"
+    }
+  },
+  "Stasiun Bekasi": {
+    "Stasiun Jakarta Kota": {
+      "length": "15km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "8km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Manggarai": {
+      "length": "12km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "4km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Depok": {
+      "length": "15km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "16km",
+      "status": "Aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "12km",
+      "status": "Aktif"
+    }
+  },
+  "Stasiun Bogor": {
+    "Stasiun Jakarta Kota": {
+      "length": "18km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "20km",
+      "status": "Aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "12km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "9km",
+      "status": "Aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "4km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Depok": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "12km",
+      "status": "Aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "12km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "15km",
+      "status": "Non-aktif"
+    }
+  },
+  "Stasiun Depok": {
+    "Stasiun Jakarta Kota": {
+      "length": "35km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "12km",
+      "status": "Aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "25km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "16km",
+      "status": "Aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "10km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "4km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "15km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "20km",
+      "status": "Non-aktif"
+    }
+  },
+  "Stasiun Tanah Abang": {
+    "Stasiun Jakarta Kota": {
+      "length": "32km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "14km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Manggarai": {
+      "length": "18km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "20km",
+      "status": "Aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "12km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "15km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Depok": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "6km",
+      "status": "Aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "15km",
+      "status": "Aktif"
+    }
+  },
+  "Stasiun Pasar Senen": {
+    "Stasiun Jakarta Kota": {
+      "length": "18km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "24km",
+      "status": "Aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "35km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "18km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "12km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Depok": {
+      "length": "9km",
+      "status": "Aktif"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "10km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Cikini": {
+      "length": "10km",
+      "status": "Aktif"
+    }
+  },
+  "Stasiun Cikini": {
+    "Stasiun Jakarta Kota": {
+      "length": "50km",
+      "status": "Aktif"
+    },
+    "Stasiun Gambir": {
+      "length": "18km",
+      "status": "Aktif"
+    },
+    "Stasiun Manggarai": {
+      "length": "24km",
+      "status": "Aktif"
+    },
+    "Stasiun Jatinegara": {
+      "length": "28km",
+      "status": "Aktif"
+    },
+    "Stasiun Bekasi": {
+      "length": "18km",
+      "status": "Aktif"
+    },
+    "Stasiun Bogor": {
+      "length": "10km",
+      "status": "Aktif"
+    },
+    "Stasiun Depok": {
+      "length": "12km",
+      "status": "Dalam Rehabilitasi"
+    },
+    "Stasiun Tanah Abang": {
+      "length": "12km",
+      "status": "Non-aktif"
+    },
+    "Stasiun Pasar Senen": {
+      "length": "10km",
+      "status": "Aktif"
+    }
+  }
+}
