@@ -276,8 +276,6 @@ class RuteKereta:
 
         posisi = self.pilih_stasiun_awal()
 
-        # List ini hanya untuk satu sesi simulasi.
-        # Setelah simulasi selesai, list ini dimasukkan ke StackRiwayat.
         riwayat_simulasi = []
 
         while True:
