@@ -29,17 +29,14 @@ class StackRiwayat:
 
         print("\n=== RIWAYAT PERJALANAN PER SIMULASI ===")
 
-        nomor_simulasi_tampil = 1
-
-        # Stack bersifat LIFO, jadi simulasi terakhir ditampilkan paling atas
         for i in range(len(self.data) - 1, -1, -1):
-            print("\nSimulasi " + str(nomor_simulasi_tampil) + ":")
+            nomor_simulasi_asli = i + 1
+
+            print("\nSimulasi " + str(nomor_simulasi_asli) + ":")
             daftar_perjalanan = self.data[i]
 
             for j in range(len(daftar_perjalanan)):
-                print("  " + str(j + 1) + ". " + daftar_perjalanan[j])
-
-            nomor_simulasi_tampil += 1
+             print("  " + str(j + 1) + ". " + daftar_perjalanan[j])
 
 class RuteKereta:
     def __init__(self):
@@ -276,8 +273,6 @@ class RuteKereta:
 
         posisi = self.pilih_stasiun_awal()
 
-        # List ini hanya untuk satu sesi simulasi.
-        # Setelah simulasi selesai, list ini dimasukkan ke StackRiwayat.
         riwayat_simulasi = []
 
         while True:
