@@ -13,23 +13,33 @@ class Node:
 
 class StackRiwayat:
     def __init__(self):
+        # self.data berisi kumpulan simulasi.
+        # Setiap simulasi disimpan sebagai list perjalanan.
         self.data = []
 
-    def push(self, perjalanan):
-        self.data.append(perjalanan)
+    def push_simulasi(self, daftar_perjalanan):
+        # Simpan hanya jika ada minimal satu perpindahan
+        if len(daftar_perjalanan) > 0:
+            self.data.append(daftar_perjalanan)
 
     def tampilkan(self):
         if len(self.data) == 0:
             print("\nRiwayat perjalanan masih kosong.")
             return
 
-        print("\n=== RIWAYAT PERJALANAN TERAKHIR ===")
-        nomor = 1
+        print("\n=== RIWAYAT PERJALANAN PER SIMULASI ===")
 
+        nomor_simulasi_tampil = 1
+
+        # Stack bersifat LIFO, jadi simulasi terakhir ditampilkan paling atas
         for i in range(len(self.data) - 1, -1, -1):
-            print(str(nomor) + ". " + self.data[i])
-            nomor += 1
+            print("\nSimulasi " + str(nomor_simulasi_tampil) + ":")
+            daftar_perjalanan = self.data[i]
 
+            for j in range(len(daftar_perjalanan)):
+                print("  " + str(j + 1) + ". " + daftar_perjalanan[j])
+
+            nomor_simulasi_tampil += 1
 
 class RuteKereta:
     def __init__(self):
@@ -262,6 +272,10 @@ class RuteKereta:
 
         posisi = self.pilih_stasiun_awal()
 
+        # List ini hanya untuk satu sesi simulasi.
+        # Setelah simulasi selesai, list ini dimasukkan ke StackRiwayat.
+        riwayat_simulasi = []
+
         while True:
             print("\n=== SIMULASI PERJALANAN RED LINE ===")
 
@@ -287,7 +301,7 @@ class RuteKereta:
                     asal = posisi.nama
                     tujuan = posisi.next.nama
                     print("Kereta bergerak dari " + asal + " ke " + tujuan)
-                    riwayat.push(asal + " -> " + tujuan)
+                    riwayat_simulasi.append(asal + " -> " + tujuan)
                     posisi = posisi.next
 
             elif pilih == 2:
@@ -297,15 +311,20 @@ class RuteKereta:
                     asal = posisi.nama
                     tujuan = posisi.prev.nama
                     print("Kereta bergerak dari " + asal + " ke " + tujuan)
-                    riwayat.push(asal + " -> " + tujuan)
+                    riwayat_simulasi.append(asal + " -> " + tujuan)
                     posisi = posisi.prev
 
             elif pilih == 3:
                 posisi = self.pilih_stasiun_awal()
 
             elif pilih == 4:
-                break
+                if len(riwayat_simulasi) > 0:
+                    riwayat.push_simulasi(riwayat_simulasi)
+                    print("\nSimulasi selesai dan riwayat berhasil disimpan.")
+                else:
+                    print("\nSimulasi selesai tanpa perpindahan. Riwayat tidak disimpan.")
 
+                break
     def simpan_csv(self, nama_file):
         with open(nama_file, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
