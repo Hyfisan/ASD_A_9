@@ -433,13 +433,21 @@ def input_teks(pesan):
             print("Input tidak boleh kosong.")
 
 
+# ==============================================================================
+# MENU ANTARMUKA (INTERFACE)
+# ==============================================================================
+
 def menu_admin(rute, nama_file):
+    """Menu khusus admin yang memiliki fungsi CRUD (Create, Read, Update, Delete)."""
     password = input("Masukkan password admin: ")
 
     if password != "admin":
         print("Password salah.")
         return
+        
     clear_terminal()
+    
+    # Animasi loading sederhana
     i = 0
     j = 0
     while i < 2:
@@ -468,6 +476,7 @@ def menu_admin(rute, nama_file):
             clear_terminal()
             jumlah_stasiun = len(get_all_stations(rute))
             print("===== TAMBAH STASIUN BARU =====")
+            # Admin bisa memilih lokasi sisipan stasiun berdasarkan urutan (1 hingga max+1)
             posisi_index = input_angka(f"Masukkan posisi stasiun baru (1-{jumlah_stasiun + 1}): ", 1, jumlah_stasiun + 1)
             kode = input_teks("Kode stasiun: ").upper()
 
@@ -524,6 +533,7 @@ def menu_admin(rute, nama_file):
             clear_terminal()
         
         elif pilih == 7:
+            # Eksplisit memanggil simpan ke CSV
             rute.simpan_csv(nama_file)
             wait(2)
             print("Data berhasil disimpan.")
@@ -535,7 +545,10 @@ def menu_admin(rute, nama_file):
 
 
 def menu_pelanggan(rute, riwayat):
+    """Menu untuk pengguna umum (baca/cari rute dan simulasi, tanpa hak edit rute)."""
     clear_terminal()
+    
+    # Animasi loading
     i = 0
     j = 0
     while i < 2:
@@ -546,6 +559,7 @@ def menu_pelanggan(rute, riwayat):
         i += 1
         j = 0
         clear_terminal()
+        
     while True:
         print("\n=== MODE PELANGGAN ===")
         print("1. Lihat rute maju")
@@ -592,7 +606,6 @@ def menu_pelanggan(rute, riwayat):
         elif pilih == 7:
             clear_terminal()
             break
-
 
 def main():
     nama_file = "stasiun.csv"
