@@ -2,33 +2,39 @@ import csv
 import os
 import time
 
+# ==============================================================================
+# STRUKTUR DATA: DOUBLE LINKED LIST & STACK
+# ==============================================================================
+
 class Node:
     def __init__(self, kode, nama, kota):
-        self.kode = kode
-        self.nama = nama
-        self.kota = kota
-        self.prev = None
-        self.next = None
+        self.kode = kode        # Kode unik stasiun (misal: MBG)
+        self.nama = nama        # Nama stasiun (misal: Mabang)
+        self.kota = kota        # Kota lokasi stasiun
+        self.prev = None        # Pointer ke stasiun sebelumnya
+        self.next = None        # Pointer ke stasiun berikutnya 
 
 
 class StackRiwayat:
+    """Class untuk menyimpan riwayat simulasi perjalanan menggunakan konsep Stack (Tumpukan)."""
     def __init__(self):
         # self.data berisi kumpulan simulasi.
         # Setiap simulasi disimpan sebagai list perjalanan.
         self.data = []
 
     def push_simulasi(self, daftar_perjalanan):
-        # Simpan hanya jika ada minimal satu perpindahan
+        # Menyimpan riwayat hanya jika ada pergerakan (minimal 1 stasiun terlewati)
         if len(daftar_perjalanan) > 0:
             self.data.append(daftar_perjalanan)
 
     def tampilkan(self):
+        # Menampilkan isi stack dari atas ke bawah (simulasi terbaru ke terlama)
         if len(self.data) == 0:
             print("\nRiwayat perjalanan masih kosong.")
             return
 
         print("\n=== RIWAYAT PERJALANAN PER SIMULASI ===")
-
+        # Looping mundur dari indeks terakhir ke 0
         for i in range(len(self.data) - 1, -1, -1):
             nomor_simulasi_asli = i + 1
 
@@ -39,44 +45,56 @@ class StackRiwayat:
              print("  " + str(j + 1) + ". " + daftar_perjalanan[j])
 
 class RuteKereta:
+    """Class Double Linked List untuk mengelola urutan stasiun kereta."""
     def __init__(self):
-        self.head = None
-        self.tail = None
+        self.head = None          # Stasiun paling awal
+        self.tail = None          # Stasiun paling akhir
 
     def kosong(self):
+        # Cek apakah rute masih kosong
         return self.head is None
 
-    def tambah_stasiun(self, kode, nama, kota, posisi = None):
+    def tambah_stasiun(self, kode, nama, kota, posisi=None):
+        # Menambah stasiun baru. Bisa di posisi tertentu atau di akhir (tail).
         node_baru = Node(kode, nama, kota)
     
         if self.kosong():
+            # Jika kosong, head dan tail menunjuk ke node baru
             self.head = node_baru
             self.tail = node_baru
         elif posisi is not None:
+            # Jika user meminta disisipkan di posisi tertentu
             temp = self.head
             i = 1
+            # Cari posisi yang dituju
             while i < posisi - 1 and temp.next is not None:
                 temp = temp.next
                 i += 1
+            
+            # Sisip di paling depan
             if temp == self.head and posisi == 1:
                 node_baru.next = self.head
                 self.head.prev = node_baru
                 self.head = node_baru
+            # Sisip di paling belakang
             elif temp.next is None:
                 temp.next = node_baru
                 node_baru.prev = temp
                 self.tail = node_baru
+            # Sisip di tengah-tengah
             else:
                 node_baru.next = temp.next
                 temp.next.prev = node_baru
                 temp.next = node_baru
                 node_baru.prev = temp
         else:
+            # Default: tambah di akhir rute (tail)
             self.tail.next = node_baru
             node_baru.prev = self.tail
             self.tail = node_baru
 
     def kode_sudah_ada(self, kode):
+        # Validasi agar tidak ada stasiun dengan kode yang sama
         bantu = self.head
         while bantu is not None:
             if bantu.kode.lower() == kode.lower():
@@ -85,6 +103,7 @@ class RuteKereta:
         return False
 
     def cari_node(self, keyword):
+        # Pencarian presisi untuk mendapatkan Node (berdasarkan kode atau nama)
         bantu = self.head
         while bantu is not None:
             if keyword.lower() == bantu.kode.lower() or keyword.lower() == bantu.nama.lower():
@@ -93,6 +112,7 @@ class RuteKereta:
         return None
 
     def tampil_maju(self):
+        # Menelusuri dari Head ke Tail
         if self.kosong():
             print("\nData stasiun masih kosong.")
             return
@@ -107,6 +127,7 @@ class RuteKereta:
         print(" <-> ".join(daftar_nama))
 
     def tampil_mundur(self):
+        # Menelusuri dari Tail ke Head (memanfaatkan pointer prev)
         if self.kosong():
             print("\nData stasiun masih kosong.")
             return
@@ -121,6 +142,7 @@ class RuteKereta:
         print(" <-> ".join(daftar_nama))
 
     def tampil_detail(self):
+        # Menampilkan rincian setiap stasiun
         if self.kosong():
             print("\nData stasiun masih kosong.")
             return
@@ -135,6 +157,7 @@ class RuteKereta:
             nomor += 1
 
     def ubah_stasiun(self, keyword):
+        # Mengubah data di dalam node tertentu
         node = self.cari_node(keyword)
 
         if node is None:
@@ -152,6 +175,7 @@ class RuteKereta:
         kota_baru = input("Kota baru: ").strip()
 
         if kode_baru != "":
+            # Cek apakah kode baru bentrok dengan stasiun lain
             if kode_baru.lower() != node.kode.lower() and self.kode_sudah_ada(kode_baru):
                 print("Kode sudah dipakai oleh stasiun lain. Kode tidak diubah.")
             else:
@@ -163,29 +187,33 @@ class RuteKereta:
         if kota_baru != "":
             node.kota = kota_baru
 
-
     def hapus_stasiun(self, keyword):
+        # Menghapus node dari Double Linked List
         node = self.cari_node(keyword)
 
         if node is None:
             print("\nStasiun tidak ditemukan.")
             return
 
+        # Kasus 1: Node adalah satu-satunya stasiun di list
         if node == self.head and node == self.tail:
             self.head = None
             self.tail = None
+        # Kasus 2: Hapus head (paling awal)
         elif node == self.head:
             self.head = node.next
             self.head.prev = None
+        # Kasus 3: Hapus tail (paling akhir)
         elif node == self.tail:
             self.tail = node.prev
             self.tail.next = None
+        # Kasus 4: Hapus di tengah-tengah
         else:
             node.prev.next = node.next
             node.next.prev = node.prev
 
-
     def cari_stasiun(self, keyword):
+        # Pencarian menggunakan metode 'mengandung kata' (substring)
         if self.kosong():
             print("\nData stasiun masih kosong.")
             return
@@ -204,6 +232,7 @@ class RuteKereta:
                 print("Nama :", bantu.nama)
                 print("Kota :", bantu.kota)
 
+                # Menampilkan relasi (stasiun sebelumnya & berikutnya)
                 if bantu.prev is not None:
                     print("Sebelumnya :", bantu.prev.nama)
                 else:
@@ -223,20 +252,23 @@ class RuteKereta:
             print("Stasiun tidak ditemukan.")
 
     def urutkan_nama(self):
+        # Mengurutkan stasiun secara Alfabetis menggunakan Bubble Sort
         if self.kosong():
             print("\nData stasiun masih kosong.")
             return
 
+        # Masukkan ke list sementara agar mudah disorting
         daftar = []
         bantu = self.head
-
         while bantu is not None:
             daftar.append(bantu)
             bantu = bantu.next
 
+        # Algoritma Bubble Sort
         for i in range(len(daftar)):
             for j in range(0, len(daftar) - i - 1):
                 if daftar[j].nama.lower() > daftar[j + 1].nama.lower():
+                    # Tukar posisi
                     daftar[j], daftar[j + 1] = daftar[j + 1], daftar[j]
 
         print("\n=== STASIUN URUT A-Z ===")
@@ -244,6 +276,7 @@ class RuteKereta:
             print(str(i + 1) + ". " + daftar[i].kode + " - " + daftar[i].nama + " (" + daftar[i].kota + ")")
 
     def pilih_stasiun_awal(self):
+        # Mengatur titik awal untuk fitur simulasi perjalanan
         print("\nDaftar stasiun:")
         bantu = self.head
         nomor = 1
@@ -260,19 +293,18 @@ class RuteKereta:
                 print("Input tidak boleh kosong.")
             else:
                 posisi = self.cari_node(keyword)
-
                 if posisi is not None:
                     return posisi
                 else:
                     print("Stasiun tidak ditemukan. Coba masukkan kode/nama yang benar.")
 
     def simulasi_perjalanan(self, riwayat):
+        # Berjalan-jalan menyusuri rute linked list ke depan atau ke belakang
         if self.kosong():
             print("\nData stasiun masih kosong.")
             return
 
         posisi = self.pilih_stasiun_awal()
-
         riwayat_simulasi = []
 
         while True:
@@ -294,6 +326,7 @@ class RuteKereta:
             pilih = input_angka("Pilih menu: ", 1, 4)
 
             if pilih == 1:
+                # Pindah ke node selanjutnya (next)
                 if posisi.next is None:
                     print("Kereta sudah berada di stasiun terakhir.")
                 else:
@@ -304,6 +337,7 @@ class RuteKereta:
                     posisi = posisi.next
 
             elif pilih == 2:
+                # Pindah ke node sebelumnya (prev)
                 if posisi.prev is None:
                     print("Kereta sudah berada di stasiun pertama.")
                 else:
@@ -317,13 +351,14 @@ class RuteKereta:
                 posisi = self.pilih_stasiun_awal()
 
             elif pilih == 4:
+                # Akhiri simulasi dan simpan ke StackRiwayat
                 if len(riwayat_simulasi) > 0:
                     riwayat.push_simulasi(riwayat_simulasi)
                     print("\nSimulasi selesai dan riwayat berhasil disimpan.")
                 else:
                     print("\nSimulasi selesai tanpa perpindahan. Riwayat tidak disimpan.")
-
                 break
+            
     def simpan_csv(self, nama_file):
         with open(nama_file, "w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
