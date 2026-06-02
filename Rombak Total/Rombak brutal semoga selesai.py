@@ -152,7 +152,6 @@ class RuteKereta:
         if kota_baru != "":
             node.kota = kota_baru
 
-        print("\nData stasiun berhasil diubah.")
 
     def hapus_stasiun(self, keyword):
         node = self.cari_node(keyword)
@@ -174,7 +173,6 @@ class RuteKereta:
             node.prev.next = node.next
             node.next.prev = node.prev
 
-        print("\nStasiun berhasil dihapus.")
 
     def cari_stasiun(self, keyword):
         if self.kosong():
@@ -437,16 +435,32 @@ def menu_admin(rute, nama_file):
             clear_terminal()
             print("===== UBAH STASIUN =====")
             keyword = input_teks("Masukkan kode/nama stasiun yang ingin diubah: ")
+            clear_terminal()
             rute.ubah_stasiun(keyword)
+            print("Mengubah data stasiun...")
+            wait(2)
+            print("Data stasiun berhasil diubah.")
+            wait(1)
+            clear_terminal()
 
         elif pilih == 6:
             clear_terminal()
             print("===== HAPUS STASIUN =====")
             keyword = input_teks("Masukkan kode/nama stasiun yang ingin dihapus: ")
             rute.hapus_stasiun(keyword)
-
+            print("Menghapus stasiun...")
+            wait(2)
+            print("Stasiun berhasil dihapus.")
+            wait(1)
+            clear_terminal()
+        
         elif pilih == 7:
             rute.simpan_csv(nama_file)
+            print("Menyimpan data...")
+            wait(2)
+            print("Data berhasil disimpan.")
+            wait(1)
+            clear_terminal()
 
         elif pilih == 8:
             break
