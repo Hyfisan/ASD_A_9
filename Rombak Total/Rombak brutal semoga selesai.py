@@ -55,6 +55,10 @@ class RuteKereta:
                 node_baru.next = self.head
                 self.head.prev = node_baru
                 self.head = node_baru
+            elif temp.next is None:
+                temp.next = node_baru
+                node_baru.prev = temp
+                self.tail = node_baru
             else:
                 node_baru.next = temp.next
                 temp.next.prev = node_baru
@@ -316,7 +320,7 @@ class RuteKereta:
                 writer.writerow([bantu.kode, bantu.nama, bantu.kota])
                 bantu = bantu.next
 
-        print("\nData berhasil disimpan ke", nama_file)
+        print("\nData berhasil disimpan ke", nama_file, "...")
 
     def baca_csv(self, nama_file):
         if not os.path.exists(nama_file):
@@ -348,6 +352,14 @@ def input_angka(pesan, batas_bawah, batas_atas):
             print("Input harus berupa angka.")
 
 # Function =========================================================================
+
+def get_all_stations(rute):
+    semua_stasiun = []
+    temp = rute.head
+    while temp is not None:
+        semua_stasiun.append(temp.kode)
+        temp = temp.next
+    return semua_stasiun
 
 def clear_terminal():
     os.system("cls" if os.name == "nt" else "clear")
@@ -398,8 +410,9 @@ def menu_admin(rute, nama_file):
 
         if pilih == 1:
             clear_terminal()
+            jumlah_stasiun = len(get_all_stations(rute))
             print("===== TAMBAH STASIUN BARU =====")
-            posisi_index = input_angka("Masukkan posisi stasiun baru (1 untuk paling awal): ", 1, 1000)
+            posisi_index = input_angka(f"Masukkan posisi stasiun baru (1-{jumlah_stasiun + 1}): ", 1, jumlah_stasiun + 1)
             kode = input_teks("Kode stasiun: ").upper()
 
             if rute.kode_sudah_ada(kode):
@@ -456,7 +469,6 @@ def menu_admin(rute, nama_file):
         
         elif pilih == 7:
             rute.simpan_csv(nama_file)
-            print("Menyimpan data...")
             wait(2)
             print("Data berhasil disimpan.")
             wait(1)
@@ -518,7 +530,6 @@ def main():
 
     rute = RuteKereta()
     riwayat = StackRiwayat()
-
     rute.baca_csv(nama_file)
 
     while True:
