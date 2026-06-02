@@ -522,9 +522,11 @@ def menu_pelanggan(rute, riwayat):
         pilih = input_angka("Pilih menu: ", 1, 7)
 
         if pilih == 1:
+            clear_terminal()
             rute.tampil_maju()
 
         elif pilih == 2:
+            clear_terminal()
             rute.tampil_mundur()
 
         elif pilih == 3:
