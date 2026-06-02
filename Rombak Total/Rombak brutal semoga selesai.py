@@ -519,25 +519,36 @@ def menu_pelanggan(rute, riwayat):
         if pilih == 1:
             clear_terminal()
             rute.tampil_maju()
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 2:
             clear_terminal()
             rute.tampil_mundur()
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 3:
+            clear_terminal()
             keyword = input_teks("Masukkan kode/nama/kota stasiun: ")
             rute.cari_stasiun(keyword)
-
+            input("\nTekan Enter untuk kembali ke menu.")
+            
         elif pilih == 4:
+            clear_terminal()
             rute.urutkan_nama()
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 5:
+            clear_terminal()
             rute.simulasi_perjalanan(riwayat)
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 6:
+            clear_terminal()
             riwayat.tampilkan()
+            input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 7:
+            clear_terminal()
             break
 
 
