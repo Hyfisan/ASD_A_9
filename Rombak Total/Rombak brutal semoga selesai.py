@@ -388,23 +388,26 @@ class RuteKereta:
                 kota = row["kota"]
                 self.tambah_stasiun(kode, nama, kota)
 
+# ==============================================================================
+# FUNGSI PEMBANTU (UTILITY)
+# ==============================================================================
+
 def input_angka(pesan, batas_bawah, batas_atas):
+    """Validasi agar input selalu berupa angka dan berada dalam range pilihan menu."""
     while True:
         data = input(pesan)
-
         try:
             angka = int(data)
-
             if angka >= batas_bawah and angka <= batas_atas:
                 return angka
             else:
                 print("Pilihan harus dari", batas_bawah, "sampai", batas_atas)
-
         except ValueError:
             print("Input harus berupa angka.")
 
 
 def get_all_stations(rute):
+    """Mengambil seluruh kode stasiun yang ada di dalam rute."""
     semua_stasiun = []
     temp = rute.head
     while temp is not None:
@@ -413,15 +416,17 @@ def get_all_stations(rute):
     return semua_stasiun
 
 def clear_terminal():
+    """Membersihkan layar terminal. Kompatibel dengan Windows (nt) maupun Linux/Mac."""
     os.system("cls" if os.name == "nt" else "clear")
 
 def wait(sec):
+    """Memberikan jeda waktu (delay)."""
     time.sleep(sec)
 
 def input_teks(pesan):
+    """Memaksa user agar tidak memberikan input kosong/hanya spasi."""
     while True:
         teks = input(pesan).strip()
-
         if teks != "":
             return teks
         else:
