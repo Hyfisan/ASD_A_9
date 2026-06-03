@@ -14,7 +14,6 @@ class Node:
         self.prev = None        # Pointer ke stasiun sebelumnya
         self.next = None        # Pointer ke stasiun berikutnya 
 
-
 class StackRiwayat:
     """Class untuk menyimpan riwayat simulasi perjalanan menggunakan konsep Stack (Tumpukan)."""
     def __init__(self):
@@ -40,7 +39,7 @@ class StackRiwayat:
             daftar_perjalanan = self.data[i]
 
             for j in range(len(daftar_perjalanan)):
-             print("  " + str(j + 1) + ". " + daftar_perjalanan[j])
+                print("  " + str(j + 1) + ". " + daftar_perjalanan[j])
 
 class RuteKereta:
     """Class Double Linked List untuk mengelola urutan stasiun kereta."""
@@ -562,11 +561,11 @@ def menu_pelanggan(rute, riwayat):
         
     while True:
         print("\n=== MODE PELANGGAN ===")
-        print("1. Lihat rute maju")
-        print("2. Lihat rute balik")
-        print("3. Cari stasiun")
-        print("4. Urutkan stasiun A-Z")
-        print("5. Simulasi perjalanan")
+        print("1. Simulasi perjalanan")
+        print("2. Lihat rute maju")
+        print("3. Lihat rute balik")
+        print("4. Cari stasiun")
+        print("5. Urutkan stasiun A-Z")
         print("6. Lihat riwayat perjalanan")
         print("7. Kembali")
 
@@ -574,34 +573,34 @@ def menu_pelanggan(rute, riwayat):
 
         if pilih == 1:
             clear_terminal()
-            rute.tampil_maju()
+            rute.simulasi_perjalanan(riwayat)
             input("\nTekan Enter untuk kembali ke menu.")
-
+            
         elif pilih == 2:
             clear_terminal()
-            rute.tampil_mundur()
+            rute.tampil_maju()
             input("\nTekan Enter untuk kembali ke menu.")
-
+            
         elif pilih == 3:
             clear_terminal()
-            keyword = input_teks("Masukkan kode/nama/kota stasiun: ")
-            rute.cari_stasiun(keyword)
+            rute.tampil_mundur()
             input("\nTekan Enter untuk kembali ke menu.")
             
         elif pilih == 4:
             clear_terminal()
-            rute.urutkan_nama()
+            keyword = input_teks("Masukkan kode/nama/kota stasiun: ")
+            rute.cari_stasiun(keyword)
             input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 5:
-            clear_terminal()
-            rute.simulasi_perjalanan(riwayat)
+            rute.urutkan_nama()
             input("\nTekan Enter untuk kembali ke menu.")
 
         elif pilih == 6:
             clear_terminal()
             riwayat.tampilkan()
             input("\nTekan Enter untuk kembali ke menu.")
+            
 
         elif pilih == 7:
             clear_terminal()
