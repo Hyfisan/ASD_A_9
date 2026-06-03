@@ -639,19 +639,19 @@ def main():
         nato_pato()
         print(" PROGRAM RUTE KERETA API")
         print("=================================")
-        print("1. Mode Admin")
-        print("2. Mode Pelanggan")
+        print("1. Mode Pelanggan")
+        print("2. Mode Admin")
         print("3. Keluar")
 
         pilih = input_angka("Pilih menu: ", 1, 3)
 
         if pilih == 1:
             clear_terminal()
-            menu_admin(rute, nama_file)
+            menu_pelanggan(rute, riwayat)
 
         elif pilih == 2:
             clear_terminal()
-            menu_pelanggan(rute, riwayat)
+            menu_admin(rute, nama_file)
 
         elif pilih == 3:
             # Memastikan data terakhir tersimpan sebelum program berhenti
