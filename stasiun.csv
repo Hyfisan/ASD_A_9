@@ -1,12 +1,8 @@
 kode,nama,kota
-LDY,Lodaya,Loday
 JAKK,Jakarta Kota,Jakarta Barat
-112,SAWD,a
 JAY,Jayakarta,Jakarta Pusat
-MPL,Mobel,Bogor
 MGB,Mangga Besar,Jakarta Pusat
 SWB,Sawah Besar,Jakarta Pusat
-TPL,Perlunak,Bogor
 JUA,Juanda,Jakarta Pusat
 GDD,Gondangdia,Jakarta Pusat
 CKI,Cikini,Jakarta Pusat
@@ -25,7 +21,5 @@ DPB,Depok Baru,Depok
 DP,Depok,Depok
 CTA,Citayam,Depok
 BJD,Bojong Gede,Bogor
-BGR,Bogor,Bogor
 CLT,Cilebut,Bogor
-505,Limakosonglima,Bogor
-ASD,Alstruda,Bogor
+BOO,Bogor,Bogor
